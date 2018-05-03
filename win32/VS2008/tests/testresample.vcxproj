@@ -85,7 +85,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>../../../bin/testresample.exe</OutputFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(OutDir)speexenc.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>

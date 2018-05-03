@@ -49,9 +49,11 @@ int main()
    float *fin, *fout;
    int count = 0;
    SpeexResamplerState *st = speex_resampler_init(1, 8000, 12000, 10, NULL);
-   speex_resampler_set_rate(st, 96000, 44100);
+   speex_resampler_set_rate(st, 16000, 32000);
    speex_resampler_skip_zeros(st);
-   
+   FILE *file_in = NULL, *file_out = NULL;
+   file_in = fopen("G:\\pesq_test_sequences\\orginal_1.pcm","rb");
+   file_out = fopen("G:\\pesq_test_sequences\\orginal_1_16kto32k.pcm", "wb");
    in = malloc(NN*sizeof(short));
    out = malloc(2*NN*sizeof(short));
    fin = malloc(NN*sizeof(float));
@@ -60,8 +62,8 @@ int main()
    {
       spx_uint32_t in_len;
       spx_uint32_t out_len;
-      fread(in, sizeof(short), NN, stdin);
-      if (feof(stdin))
+      fread(in, sizeof(short), NN, file_in);
+      if (feof(file_in))
          break;
       for (i=0;i<NN;i++)
          fin[i]=in[i];
@@ -73,7 +75,7 @@ int main()
       for (i=0;i<out_len;i++)
          out[i]=floor(.5+fout[i]);
       /*speex_warning_int("writing", out_len);*/
-      fwrite(out, sizeof(short), out_len, stdout);
+      fwrite(out, sizeof(short), out_len, file_out);
       count++;
    }
    speex_resampler_destroy(st);
@@ -81,6 +83,8 @@ int main()
    free(out);
    free(fin);
    free(fout);
+   fclose(file_out);
+   fclose(file_in);
    return 0;
 }
 
